@@ -13,7 +13,7 @@ function QuizList() {
           navigate("/quiz-typing", { state: { quiz: "pokemon-151" } })
         }
       >
-        Pokemon Quiz
+        151 Original Pokémon
       </Button>
 
       <Button
@@ -21,7 +21,15 @@ function QuizList() {
           navigate("/quiz-typing", { state: { quiz: "us-states" } })
         }
       >
-        US States Quiz
+        US States
+      </Button>
+
+      <Button
+        onClick={() =>
+          navigate("/quiz-typing", { state: { quiz: "european-countries" } })
+        }
+      >
+        European Countries
       </Button>
     </div>
   );

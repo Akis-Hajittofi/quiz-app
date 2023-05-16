@@ -5,52 +5,60 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
 function QuizTyping() {
-  const [input, setInput] = useState("");
-  const [correctAnswers, setCorrectAnswers] = useState([]);
-  const [score, setScore] = useState(0);
-  const [endGame, setEndGame] = useState(false);
-  const navigate = useNavigate();
-
   const { state } = useLocation();
   const { quiz } = state;
-
+  const navigate = useNavigate();
   const answers = require(`./data/${quiz}.json`);
+  const maxScore = answers.data.length;
+
+  const [input, setInput] = useState("");
+  const [correctAnswers, setCorrectAnswers] = useState(
+    Array.from({ length: answers.data.length }, () => "")
+  );
+
+  const [score, setScore] = useState(0);
+  const [endGame, setEndGame] = useState(false);
 
   useEffect(() => {
     if (endGame === true) {
       navigate("/result", {
         state: {
-          quiz: { name: answers.name, maxScore: answers.data.length },
+          quiz: { name: answers.name, maxScore: maxScore },
           score: score,
         },
       });
     }
-  }, [answers.data.length, answers.name, endGame, navigate, score]);
+  }, [maxScore, answers.name, endGame, navigate, score]);
 
   const checkInput = (e) => {
     setInput(e.target.value);
     const value = e.target.value.toLowerCase();
-    let isCorrect = undefined;
 
-    answers.data.forEach((item) => {
-      const itemName = item.name.toLowerCase();
+    const correctAnswersLowerCase = correctAnswers.map((str) =>
+      str.toLowerCase()
+    );
 
-      if (itemName === value) {
-        if (correctAnswers.includes(itemName)) {
-          // console.log(`${stateName} already given`);
-          isCorrect = false;
-        } else {
-          isCorrect = true;
-        }
-      }
+    const index = answers.data.findIndex((item) => {
+      return item.name.toLowerCase() === value;
     });
 
-    if (isCorrect) {
-      const currentScore = score;
-      setCorrectAnswers([...correctAnswers, value]);
-      setScore(currentScore + 1);
-      setInput("");
+    if (index !== -1 && !correctAnswersLowerCase.includes(value)) {
+      recordCorrectAnswer(index);
     }
+  };
+
+  const recordCorrectAnswer = (index) => {
+    const incrementedScore = score + 1;
+    const updatedCorrectAnswers = [...correctAnswers];
+    const str = answers.data[index].name;
+    updatedCorrectAnswers[index] = str.charAt(0).toUpperCase() + str.slice(1);
+
+    setCorrectAnswers([...updatedCorrectAnswers]);
+    setScore(incrementedScore);
+    if (incrementedScore === maxScore) {
+      setEndGame(true);
+    }
+    setInput("");
   };
 
   return (
@@ -69,7 +77,7 @@ function QuizTyping() {
       />
 
       <Button onClick={() => setEndGame(true)}>End Quiz</Button>
-      <ol>
+      <ol className="quizTyping__correctAnswers">
         {correctAnswers.map((answer, index) => (
           <li key={index}>{answer}</li>
         ))}
