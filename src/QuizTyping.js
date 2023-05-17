@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./QuizTyping.css";
 import CountdownTimer from "./CountdownTimer";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import Answers from "./Answers";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
+import GradingIcon from "@mui/icons-material/Grading";
+import { Grading } from "@mui/icons-material";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 
 function QuizTyping() {
   const { state } = useLocation();
@@ -76,19 +80,42 @@ function QuizTyping() {
 
   return (
     <div className="quizTyping">
-      <div className="quizTyping__input">
-        <input value={input} type="text" onChange={checkInput} />
+      <div className="quizTyping__header">
+        <img src={answers.image} alt="" />
+        <div className="quizTyping__headerTitle">
+          <h1>{answers.name}</h1>
+          <h2>{answers.subtitle}</h2>
+        </div>
       </div>
-      <h1>
-        THE SCORE IS: {score}/{answers.data.length}
-      </h1>
-      <CountdownTimer
-        minutes={answers.timeLimit.minutes}
-        seconds={answers.timeLimit.seconds}
-        setEndGame={setEndGame}
-      />
 
-      <Button onClick={() => setEndGame(true)}>End Quiz</Button>
+      <div className="quizTyping__top">
+        <div className="quizTyping__topInput">
+          <h3>Enter {answers.itemName}:</h3>
+          <input value={input} type="text" onChange={checkInput} />
+        </div>
+
+        <div className="quizTyping__topInfoAndQuit">
+          <CountdownTimer
+            minutes={answers.timeLimit.minutes}
+            seconds={answers.timeLimit.seconds}
+            setEndGame={setEndGame}
+          />
+
+          <div className="quizTyping__topScore">
+            <Grading className="quizTyping__topIcon" />
+            <h3 className="quizTyping__topScoreText">
+              {score}/{answers.data.length}
+            </h3>
+          </div>
+          <div
+            className="quizTyping__topGiveUp"
+            onClick={() => setEndGame(true)}
+          >
+            <DirectionsRunIcon className={"quizTyping__topGiveUpIcon"} />
+            <h3>Give up</h3>
+          </div>
+        </div>
+      </div>
 
       <Answers answers={scoredAnswers} quizFinished={false} />
     </div>

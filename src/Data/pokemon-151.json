@@ -1,6 +1,9 @@
 {
   "name": "151 Original Pokémon",
+  "subtitle": "Wanna catch 'em all? Then know your Pokédex!",
+  "itemName": "Pokémon",
   "timeLimit": { "minutes": 15, "seconds": 0 },
+  "image": "https://gameranx.com/wp-content/uploads/2020/02/PokemonG1Starters.jpg",
   "data": [
     {
       "name": "bulbasaur",

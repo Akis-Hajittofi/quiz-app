@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setCountDownIsFinished } from "./features/coundownTimerSlice";
+import React, { useState, useEffect } from "react";
+import "./CountdownTimer.css";
+import TimerIcon from "@mui/icons-material/Timer";
 
 const CountdownTimer = ({ minutes, seconds, setEndGame }) => {
   const [timeLeft, setTimeLeft] = useState(minutes * 60 + seconds);
@@ -21,9 +21,12 @@ const CountdownTimer = ({ minutes, seconds, setEndGame }) => {
   const secondsLeft = timeLeft % 60;
 
   return (
-    <h1>
-      {minutesLeft}:{secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}
-    </h1>
+    <div className="countdownTimer">
+      <TimerIcon className="countdownTimer__icon" />
+      <h3 className="countdownTimer__text">
+        {minutesLeft}:{secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}
+      </h3>
+    </div>
   );
 };
 

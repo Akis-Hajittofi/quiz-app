@@ -1,6 +1,9 @@
 {
   "name": "European Countries",
+  "subtitle": "How well can you name the countries of Europe?",
+  "itemName": "country",
   "timeLimit": { "minutes": 8, "seconds": 30 },
+  "image": "https://geology.com/world/europe-map.gif",
   "data": [
     {
       "name": "Andorra",

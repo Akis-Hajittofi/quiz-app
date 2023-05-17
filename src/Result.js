@@ -13,14 +13,14 @@ function Result() {
   const retriveAnswer = (index) => {
     const answers = require(`./data/${fileName}.json`);
     const str = answers.data[index].name;
-    console.log("Retrieve answer: ", str);
+    // console.log("Retrieve answer: ", str);
     return str;
   };
 
   const filledAnswers = correctAnswers.map((obj, index) =>
     obj.name === " " ? { name: retriveAnswer(index), scoredAnswer: false } : obj
   );
-  console.log("filledAnswers === ", filledAnswers);
+  // console.log("filledAnswers === ", filledAnswers);
 
   return (
     <div className="result">

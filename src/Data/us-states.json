@@ -1,6 +1,9 @@
 {
   "name": "US States",
+  "subtitle": "How well can you name the US States?",
+  "itemName": "state",
   "timeLimit": { "minutes": 15, "seconds": 0 },
+  "image": "https://www.fpri.org/docs/field/image/us_flag_waving.jpg",
   "data": [
     { "name": "Alabama", "abbreviation": "AL" },
     { "name": "Alaska", "abbreviation": "AK" },
