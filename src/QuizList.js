@@ -25,13 +25,14 @@ function QuizList() {
         <QuizIcon className="quizList__randomIcon" />
         <h3>Random</h3>
       </div>
-      {list.data.map((quiz) => (
+      {list.data.map((quiz, index) => (
         <QuizRow
           name={quiz.name}
           subtitle={quiz.subtitle}
           quizType={quiz.quizType}
           fileName={quiz.fileName}
           image={quiz.image}
+          key={index}
         />
       ))}
     </div>

@@ -35,6 +35,24 @@
       "quizType": "typing",
       "fileName": "european-countries",
       "image": "https://geology.com/world/europe-map.gif"
+    },
+    {
+      "name": "World Countries",
+      "subtitle": "Know EVERY country in the world!? Prove it!",
+      "itemName": "country",
+      "timeLimit": { "minutes": 17, "seconds": 0 },
+      "quizType": "typing",
+      "fileName": "worldwide-countries",
+      "image": "https://www.printablee.com/postpic/2009/09/world-map-without-labels_295105.png"
+    },
+    {
+      "name": "James Bond Movies",
+      "subtitle": "Fan of James Bond? Can you name every movie?",
+      "itemName": "movie",
+      "timeLimit": { "minutes": 6, "seconds": 0 },
+      "quizType": "typing",
+      "fileName": "james-bond-movies",
+      "image": "https://mcdn.wallpapersafari.com/medium/39/16/VLwA7d.png"
     }
   ]
 }
