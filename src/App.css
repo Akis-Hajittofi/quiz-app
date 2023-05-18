@@ -1,0 +1,9 @@
+.app__body {
+  width: 60%;
+  border-radius: 15px;
+  background-color: rgb(229, 231, 249);
+}
+
+.app {
+  background-color: white;
+}
