@@ -1,36 +1,21 @@
-import { Button } from "@mui/material";
 import React from "react";
-import QuizTyping from "./QuizTyping";
-import { useNavigate } from "react-router-dom";
+import QuizRow from "./QuizRow";
+import "./QuizList.css";
 
 function QuizList() {
-  const navigate = useNavigate();
+  const list = require("./data/list/list.json");
 
   return (
     <div className="quizList">
-      <Button
-        onClick={() =>
-          navigate("/quiz-typing", { state: { quiz: "pokemon-151" } })
-        }
-      >
-        151 Original Pokémon
-      </Button>
-
-      <Button
-        onClick={() =>
-          navigate("/quiz-typing", { state: { quiz: "us-states" } })
-        }
-      >
-        US States
-      </Button>
-
-      <Button
-        onClick={() =>
-          navigate("/quiz-typing", { state: { quiz: "european-countries" } })
-        }
-      >
-        European Countries
-      </Button>
+      {list.data.map((quiz) => (
+        <QuizRow
+          name={quiz.name}
+          subtitle={quiz.subtitle}
+          quizType={quiz.quizType}
+          fileName={quiz.fileName}
+          image={quiz.image}
+        />
+      ))}
     </div>
   );
 }

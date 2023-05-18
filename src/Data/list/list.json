@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "name": "151 Original Pokémon",
+      "subtitle": "Wanna catch 'em all? Then know your Pokédex!",
+      "itemName": "Pokémon",
+      "timeLimit": {
+        "minutes": 15,
+        "seconds": 0
+      },
+      "quizType": "typing",
+      "fileName": "pokemon-151",
+      "image": "https://gameranx.com/wp-content/uploads/2020/02/PokemonG1Starters.jpg"
+    },
+    {
+      "name": "US States",
+      "subtitle": "How well can you name the US States?",
+      "itemName": "state",
+      "timeLimit": {
+        "minutes": 15,
+        "seconds": 0
+      },
+      "quizType": "typing",
+      "fileName": "us-states",
+      "image": "https://www.fpri.org/docs/field/image/us_flag_waving.jpg"
+    },
+    {
+      "name": "European Countries",
+      "subtitle": "How well can you name the countries of Europe?",
+      "itemName": "country",
+      "timeLimit": {
+        "minutes": 8,
+        "seconds": 30
+      },
+      "quizType": "typing",
+      "fileName": "european-countries",
+      "image": "https://geology.com/world/europe-map.gif"
+    }
+  ]
+}

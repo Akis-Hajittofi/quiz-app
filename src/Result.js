@@ -18,7 +18,7 @@ function Result({ name, maxScore, score, scoredAnswers, fileName }) {
 
   return (
     <div className="result">
-      <h1>RESULT PAGE</h1>
+      <h1>The results are in!</h1>
       <p>
         You scored {score}/{maxScore}, getting{" "}
         {calculatePercentage(score, maxScore)}% in the {name} quiz!

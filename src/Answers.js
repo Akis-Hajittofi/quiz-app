@@ -16,6 +16,7 @@ function Answers({ answers, quizFinished }) {
           }
           key={index}
         >
+          <span>{`${index + 1}) `}</span>
           {obj.name}
         </li>
       ))}

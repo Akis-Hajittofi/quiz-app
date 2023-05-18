@@ -3,6 +3,8 @@
   "subtitle": "How well can you name the US States?",
   "itemName": "state",
   "timeLimit": { "minutes": 15, "seconds": 0 },
+  "quizType": "typing",
+  "fileName": "us-states",
   "image": "https://www.fpri.org/docs/field/image/us_flag_waving.jpg",
   "data": [
     { "name": "Alabama", "abbreviation": "AL" },

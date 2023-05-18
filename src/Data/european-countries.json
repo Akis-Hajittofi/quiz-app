@@ -3,6 +3,8 @@
   "subtitle": "How well can you name the countries of Europe?",
   "itemName": "country",
   "timeLimit": { "minutes": 8, "seconds": 30 },
+  "quizType": "typing",
+  "fileName": "european-countries",
   "image": "https://geology.com/world/europe-map.gif",
   "data": [
     {

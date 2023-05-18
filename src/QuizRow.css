@@ -1,0 +1,39 @@
+.quizRow {
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); */
+  box-shadow: 0px 2px 5px -2px rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: 60px;
+  grid-template-columns: 115px 1fr;
+  grid-template-areas:
+    "image   title"
+    "image   icons";
+}
+
+.quizRow:hover {
+  transform: scale(1.05);
+  background-color: whitesmoke;
+}
+
+.quizRow__title {
+  grid-area: title;
+}
+
+.quizRow__title > h2 {
+  margin-bottom: 1px;
+  font-size: 20px;
+}
+
+.quizRow__title > h3 {
+  font-size: 10px;
+  font-style: italic;
+}
+
+.quizRow > img {
+  grid-area: image;
+  width: 100px;
+}

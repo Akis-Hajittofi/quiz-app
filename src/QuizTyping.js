@@ -69,34 +69,37 @@ function QuizTyping() {
       </div>
 
       {!endGame ? (
-        <div className="quizTyping__top">
-          <div className="quizTyping__topInput">
-            <h3>Enter {answers.itemName}:</h3>
-            <input value={input} type="text" onChange={checkInput} />
-          </div>
-
-          <div className="quizTyping__topInfoAndQuit">
-            <CountdownTimer
-              minutes={answers.timeLimit.minutes}
-              seconds={answers.timeLimit.seconds}
-              setEndGame={setEndGame}
-            />
-
-            <div className="quizTyping__topScore">
-              <GradingIcon className="quizTyping__topIcon" />
-              <h3 className="quizTyping__topScoreText">
-                {score}/{answers.data.length}
-              </h3>
+        <>
+          <div className="quizTyping__top">
+            <div className="quizTyping__topInput">
+              <h3>Enter {answers.itemName}:</h3>
+              <input value={input} type="text" onChange={checkInput} />
             </div>
-            <div
-              className="quizTyping__topGiveUp"
-              onClick={() => setEndGame(true)}
-            >
-              <DirectionsRunIcon className={"quizTyping__topGiveUpIcon"} />
-              <h3>Give up</h3>
+
+            <div className="quizTyping__topInfoAndQuit">
+              <CountdownTimer
+                minutes={answers.timeLimit.minutes}
+                seconds={answers.timeLimit.seconds}
+                setEndGame={setEndGame}
+              />
+
+              <div className="quizTyping__topScore">
+                <GradingIcon className="quizTyping__topIcon" />
+                <h3 className="quizTyping__topScoreText">
+                  {score}/{answers.data.length}
+                </h3>
+              </div>
+              <div
+                className="quizTyping__topGiveUp"
+                onClick={() => setEndGame(true)}
+              >
+                <DirectionsRunIcon className={"quizTyping__topGiveUpIcon"} />
+                <h3>Give up</h3>
+              </div>
             </div>
           </div>
-        </div>
+          <Answers answers={scoredAnswers} quizFinished={false} />
+        </>
       ) : (
         <Result
           name={answers.name}
@@ -106,8 +109,6 @@ function QuizTyping() {
           fileName={quiz}
         />
       )}
-
-      <Answers answers={scoredAnswers} quizFinished={false} />
     </div>
   );
 }
