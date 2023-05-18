@@ -90,6 +90,10 @@
   cursor: pointer;
 }
 
+.quizTyping__topGiveUpIcon {
+  padding: 5px !important;
+}
+
 .quizTyping__topIcon {
   width: 50px !important;
   height: 50px !important;
