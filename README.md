@@ -1,46 +1,35 @@
-# Getting Started with Create React App and Redux
+# Quiz App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Quiz App is an fun way to put your knowledge to test! Can you name all 50 US States? Or all gen 1 Pokémon? ...and more!
 
-## Available Scripts
+**This project is still in early stages of development,** I plan to add more types of quizes and more features such as leaderboards.
 
-In the project directory, you can run:
+## Run Locally
 
-### `npm start`
+Install dependencies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+  npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Start the server
 
-### `npm test`
+```bash
+  npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Once it starts running you will see a link in the terminal of the local address it's using.
 
-### `npm run build`
+## Screenshots
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Homepage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Homepage](https://i.postimg.cc/SN5qTq5y/Screenshot-2023-06-23-184855.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Typing Quiz
 
-### `npm run eject`
+![Typing Quiz](https://i.postimg.cc/Dz57cs3N/Screenshot-2023-06-23-185348.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Results
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Results](https://i.postimg.cc/prjTkTZn/Screenshot-2023-06-23-185425.png)
