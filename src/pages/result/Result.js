@@ -1,5 +1,5 @@
 import React from "react";
-import Answers from "./Answers";
+import Answers from "../../components/answers/Answers";
 
 function Result({ name, maxScore, score, scoredAnswers, fileName }) {
   const calculatePercentage = (score, maxScore) => {
@@ -7,7 +7,7 @@ function Result({ name, maxScore, score, scoredAnswers, fileName }) {
   };
 
   const retriveAnswer = (index) => {
-    const answers = require(`./data/${fileName}.json`);
+    const answers = require(`../../data/${fileName}.json`);
     const str = answers.data[index].name;
     return str;
   };

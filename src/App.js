@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import Result from "./Result";
-import QuizList from "./QuizList";
-import QuizTyping from "./QuizTyping";
-import Header from "./Header";
+import Result from "./pages/result/Result";
+import QuizList from "./pages/QuizList/QuizList";
+import QuizTyping from "./pages/QuizTyping/QuizTyping";
+import Header from "./components/header/Header";
 
 function App() {
   return (

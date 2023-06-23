@@ -1,11 +1,11 @@
 import React from "react";
-import QuizRow from "./QuizRow";
+import QuizRow from "../../components/QuizRow/QuizRow";
 import "./QuizList.css";
 import QuizIcon from "@mui/icons-material/Quiz";
 import { useNavigate } from "react-router-dom";
 
 function QuizList() {
-  const list = require("./data/list/list.json");
+  const list = require("../../data/list/list.json");
   const navigate = useNavigate();
 
   const randomQuiz = () => {

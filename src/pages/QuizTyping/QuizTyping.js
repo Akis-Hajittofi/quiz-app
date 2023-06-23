@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "./QuizTyping.css";
-import CountdownTimer from "./CountdownTimer";
+import CountdownTimer from "../../components/CountdownTimer/CountdownTimer";
 import { useLocation } from "react-router-dom";
-import Answers from "./Answers";
+import Answers from "../../components/answers/Answers";
 import GradingIcon from "@mui/icons-material/Grading";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
-import Result from "./Result";
+import Result from "../result/Result";
 
 function QuizTyping() {
   const { state } = useLocation();
   const { quiz } = state;
-  const answers = require(`./data/${quiz}.json`);
+  const answers = require(`../../data/${quiz}.json`);
   const maxScore = answers.data.length;
 
   const [input, setInput] = useState("");
