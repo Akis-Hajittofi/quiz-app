@@ -4,6 +4,8 @@ Quiz App is an fun way to put your knowledge to test! Can you name all 50 US Sta
 
 **This project is still in early stages of development,** I plan to add more types of quizes and more features such as leaderboards.
 
+Technologies used: JavaScript, Node.JS, React, Postgres, CSS
+
 ## Run Locally
 
 Install dependencies
