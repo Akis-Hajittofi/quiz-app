@@ -1,37 +1,8 @@
-# Quiz App
+# React + Vite
 
-Quiz App is an fun way to put your knowledge to test! Can you name all 50 US States? Or all gen 1 Pokémon? ...and more!
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**This project is still in early stages of development,** I plan to add more types of quizes and more features such as leaderboards.
+Currently, two official plugins are available:
 
-Technologies used: JavaScript, Node.JS, React, Postgres, CSS
-
-## Run Locally
-
-Install dependencies
-
-```bash
-  npm install
-```
-
-Start the server
-
-```bash
-  npm start
-```
-
-Once it starts running you will see a link in the terminal of the local address it's using.
-
-## Screenshots
-
-### Homepage
-
-![Homepage](https://i.postimg.cc/SN5qTq5y/Screenshot-2023-06-23-184855.png)
-
-### Typing Quiz
-
-![Typing Quiz](https://i.postimg.cc/Dz57cs3N/Screenshot-2023-06-23-185348.png)
-
-### Results
-
-![Results](https://i.postimg.cc/prjTkTZn/Screenshot-2023-06-23-185425.png)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
