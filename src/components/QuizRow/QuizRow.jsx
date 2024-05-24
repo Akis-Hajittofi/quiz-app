@@ -22,7 +22,7 @@ function QuizRow({ name, subtitle, quizType, fileName, image }) {
         navigate(`/quiz-${quizType}`, { state: { quiz: fileName } })
       }
     >
-      <div className="quizRow__title">
+      <div className="text-1xl">
         <h2>{name}</h2>
         <h3>{subtitle}</h3>
       </div>
