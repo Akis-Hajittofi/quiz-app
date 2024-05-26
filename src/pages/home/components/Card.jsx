@@ -5,14 +5,14 @@ import KeyboardIcon from "@mui/icons-material/Keyboard";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import ListIcon from "@mui/icons-material/List";
 import { PlayIcon } from "../../../assets/icons";
-import { Bookmark, CirclePlay, Keyboard } from "lucide-react";
+import { Bookmark, CirclePlay, Gamepad2, Keyboard } from "lucide-react";
 
 function Card({ name, subtitle, quizType, fileName, image }) {
   const navigate = useNavigate();
 
   const getIcon = (quizType) => {
     if (quizType === "typing") {
-      return <Keyboard size={25} className="text-white inline" />;
+      return <Keyboard size={24} className="text-white inline" />;
     } else if (quizType === "multiple-choice") {
       return <ListIcon size={25} className="text-white inline" />;
     }
@@ -26,12 +26,7 @@ function Card({ name, subtitle, quizType, fileName, image }) {
   // Have some sort of nav or filtering on this page as well
 
   return (
-    <div
-      className="relative w-56 h-fit rounded-lg border bg-card text-card-foreground shadow-sm"
-      onClick={() =>
-        navigate(`/quiz-${quizType}`, { state: { quiz: fileName } })
-      }
-    >
+    <div className="relative w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
       <div className="h-32 rounded-t-md overflow-hidden ...">
         <img src={image} alt="" className="" />
       </div>
@@ -46,10 +41,17 @@ function Card({ name, subtitle, quizType, fileName, image }) {
 
         <div className="flex flex-row justify-between ">
           <Bookmark size={35} strokeWidth={1} className=" text-fuchsia-950" />
-          <CirclePlay size={35} strokeWidth={1} className=" text-fuchsia-950" />
+          <Gamepad2
+            size={35}
+            strokeWidth={1}
+            className=" text-fuchsia-950 hover:cursor-pointer"
+            onClick={() =>
+              navigate(`/quiz-${quizType}`, { state: { quiz: fileName } })
+            }
+          />
         </div>
       </div>
-      <span className="pb-1 m-0 absolute left-2 top-2  bg-fuchsia-950 p-1 rounded-md">
+      <span className="absolute left-2 top-2 grid place-content-center bg-fuchsia-950 p-1 rounded-md">
         {" "}
         {getIcon(quizType)}
       </span>
