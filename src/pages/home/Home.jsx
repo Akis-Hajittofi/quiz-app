@@ -1,7 +1,4 @@
-import React from "react";
 import Card from "./components/Card";
-import "./QuizList.css";
-import QuizIcon from "@mui/icons-material/Quiz";
 import { useNavigate } from "react-router-dom";
 import list from "../../data/list/list.json";
 import { BookText, Dices, Search, Shuffle } from "lucide-react";
@@ -24,7 +21,7 @@ function Home() {
         <div className="flex flex-col items-center ">
           <button
             onClick={randomQuiz}
-            className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md"
+            className="bg-fuchsia-950 rounded-full w-14 h-14 p-2 grid place-content-center border-2 border-slate-300 shadow-md hover:w-28 transition-all duration-300 ease-in-out"
           >
             <Dices size={32} className="text-white" />
           </button>

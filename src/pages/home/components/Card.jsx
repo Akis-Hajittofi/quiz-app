@@ -1,11 +1,6 @@
-import React from "react";
-// import "./QuizRow.css";
 import { useNavigate } from "react-router-dom";
-import KeyboardIcon from "@mui/icons-material/Keyboard";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import ListIcon from "@mui/icons-material/List";
-import { PlayIcon } from "../../../assets/icons";
-import { Bookmark, CirclePlay, Gamepad2, Keyboard } from "lucide-react";
+import { Bookmark, Gamepad2, Keyboard } from "lucide-react";
 
 function Card({ name, subtitle, quizType, fileName, image }) {
   const navigate = useNavigate();
@@ -17,13 +12,6 @@ function Card({ name, subtitle, quizType, fileName, image }) {
       return <ListIcon size={25} className="text-white inline" />;
     }
   };
-
-  // TODO:
-  // Finish off the design of the cards so that I can move on to the Quiz Typing page.
-  // Don't spend too much time on this for now, I need to get more functionality done.
-  // Have the play button on the bottom right
-  // Look into changing the font style of my app using Tailwind
-  // Have some sort of nav or filtering on this page as well
 
   return (
     <div className="relative w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
