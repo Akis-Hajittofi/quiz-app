@@ -14,12 +14,12 @@ function Card({ name, subtitle, quizType, fileName, image }) {
   };
 
   return (
-    <div className="relative w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
-      <div className="h-32 rounded-t-md overflow-hidden ...">
+    <div className="relative w-full sm:w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
+      <div className="h-36 rounded-t-md overflow-hidden ...">
         <img src={image} alt="" className="" />
       </div>
 
-      <div className="flex flex-col justify-between p-3 h-52">
+      <div className="flex flex-col justify-between p-3 h-40 sm:h-48">
         <div className="flex flex-col text-indigo-950">
           <div className="font-bold font-sans text-xl ">
             <span className="p-0 m-0 inline space-x-1">{name}</span>
@@ -33,9 +33,7 @@ function Card({ name, subtitle, quizType, fileName, image }) {
             size={35}
             strokeWidth={1}
             className=" text-fuchsia-950 hover:cursor-pointer"
-            onClick={() =>
-              navigate(`/quiz-${quizType}`, { state: { quiz: fileName } })
-            }
+            onClick={() => navigate(`/play/typing/${fileName}`)}
           />
         </div>
       </div>

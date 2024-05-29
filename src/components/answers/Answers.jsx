@@ -1,26 +1,17 @@
-import React from "react";
-import "./Answers.css";
-
 function Answers({ answers, quizFinished }) {
   const scoredAnswers = answers;
   return (
-    <ol className="answers">
+    <div className="flex flex-row flex-wrap gap-3 items-center justify-center">
       {scoredAnswers.map((obj, index) => (
-        <li
-          className={
-            quizFinished
-              ? obj.scoredAnswer
-                ? "answer__correct"
-                : "answer__incorrect"
-              : ""
-          }
+        <span
+          className=" w-48 shadow-sm  p-1 border font-sans text-xl  "
           key={index}
         >
-          <span>{`${index + 1}) `}</span>
-          {obj.name}
-        </li>
+          <span className="text-indigo-800 font-thin">{`${index + 1}) `}</span>
+          <span className="text-indigo-950">{`${obj.name} `}</span>
+        </span>
       ))}
-    </ol>
+    </div>
   );
 }
 

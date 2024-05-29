@@ -10,14 +10,12 @@ function Home() {
     const randomisedQuiz =
       list.data[Math.floor(Math.random() * list.data.length)];
 
-    navigate(`/quiz-${randomisedQuiz.quizType}`, {
-      state: { quiz: randomisedQuiz.fileName },
-    });
+    navigate(`/play/typing/${randomisedQuiz.fileName}`);
   };
 
   return (
-    <div>
-      <nav className="px-10 mt-5 w-full flex justify-center space-x-8">
+    <div className="">
+      <nav className=" mt-5 w-full flex justify-center space-x-8">
         <div className="flex flex-col items-center ">
           <button
             onClick={randomQuiz}
@@ -47,7 +45,7 @@ function Home() {
         </div>
       </nav>
 
-      <div className="flex flex-row flex-wrap p-5 gap-4">
+      <div className="flex flex-wrap p-5 gap-4 justify-center">
         {list.data.map((quiz, index) => (
           <Card
             name={quiz.name}

@@ -1,33 +1,23 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import "./QuizTyping.css";
 import CountdownTimer from "../../components/CountdownTimer/CountdownTimer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Answers from "../../components/answers/Answers";
 import Result from "../result/Result";
-import { getQuiz } from "../../utils/getQuiz";
-import { ArrowLeft, DoorOpen } from "lucide-react";
+import { ArrowLeft, Coins, Skull } from "lucide-react";
 
-function TypingQuiz() {
-  const { state } = useLocation();
+function TypingQuiz({ quiz }) {
   const navigate = useNavigate();
 
-  const answers = getQuiz(state.quiz);
-  const maxScore = answers.data.length;
+  const maxScore = quiz.data.length;
   const [score, setScore] = useState(0);
+  const [percentage, setPercentage] = useState(0);
   const [endGame, setEndGame] = useState(false);
-  // let [percentage, setPercentage] = useState(0);
-
-  // useEffect(() => {
-  //   setPercentage(percentage);
-  // }, [percentage, setPercentage]);
-
-  // const calculatePercentage = (score, maxScore) => {
-  //   return ((score / maxScore) * 100).toFixed(2).replace(/\.0*$/, "");
-  // };
 
   const [input, setInput] = useState("");
   const [scoredAnswers, setScoredAnswers] = useState(
-    Array.from({ length: answers.data.length }, () => ({
+    Array.from({ length: quiz.data.length }, () => ({
       name: " ",
       scoredAnswer: false,
     }))
@@ -41,7 +31,7 @@ function TypingQuiz() {
       obj.name.toLowerCase()
     );
 
-    const index = answers.data.findIndex((item) => {
+    const index = quiz.data.findIndex((item) => {
       return item.name.toLowerCase() === value;
     });
 
@@ -53,15 +43,20 @@ function TypingQuiz() {
   const recordCorrectAnswer = (index) => {
     const incrementedScore = score + 1;
     const updatedCorrectAnswers = [...scoredAnswers];
-    const str = answers.data[index].name;
+    const str = quiz.data[index].name;
     updatedCorrectAnswers[index] = {
       name: str.charAt(0).toUpperCase() + str.slice(1),
       scoredAnswer: true,
     };
 
     setScoredAnswers([...updatedCorrectAnswers]);
+
+    const calculatePercentage = (incrementedScore, maxScore) => {
+      return ((incrementedScore / maxScore) * 100).toFixed(2);
+    };
+    setPercentage(calculatePercentage(incrementedScore, maxScore));
+
     setScore(incrementedScore);
-    console.log((incrementedScore / maxScore) * 100);
     if (incrementedScore === maxScore) {
       setEndGame(true);
     }
@@ -70,50 +65,53 @@ function TypingQuiz() {
   console.log(scoredAnswers);
 
   return (
-    <div className="p-5">
-      <div className="flex flex-row w-full mt-4 justify-between">
+    <div className="w-full lg:w-2/3 mx-auto">
+      <div className="flex flex-row mt-4 justify-between items-start px-5">
         <button
           onClick={() => navigate("/")}
-          className="text-indigo-950 w-16 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
+          className="text-indigo-950 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
         >
           <ArrowLeft size={35} />
         </button>
-
-        <CountdownTimer
-          minutes={answers.timeLimit.minutes}
-          seconds={answers.timeLimit.seconds}
-          setEndGame={setEndGame}
-        />
         <button
           onClick={() => setEndGame(true)}
-          className="text-indigo-950 w-16 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
+          className="text-indigo-950 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
         >
-          <DoorOpen size={30} />
+          <Skull size={30} />
         </button>
       </div>
+      <div className="flex flex-col items-center pb-10">
+        <div className="flex flex-row py-7">
+          <div className="flex flex-col items-center">
+            <span className="text-indigo-950 mb-4 w-fit font-semibold font-sans text-3xl">
+              {quiz.name}
+            </span>{" "}
+            <input
+              className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
+              value={input}
+              type="text"
+              placeholder={`Enter ${quiz.itemName}`}
+              onChange={checkInput}
+            />
+          </div>
+        </div>
+        <CountdownTimer
+          minutes={quiz.timeLimit.minutes}
+          seconds={quiz.timeLimit.seconds}
+          setEndGame={setEndGame}
+        />
+        <div className="flex flex-row w-11/12  px-8 space-x-3 items-center font-semibold text-indigo-950 font-sans text-3xl">
+          <Coins size={30} />
+          <span>{`${score}/${maxScore}`}</span>
 
-      <div className="flex flex-col py-28">
-        <div className="flex flex-col items-center">
-          <span className="text-indigo-950 mb-4 w-fit font-semibold font-sans text-3xl">
-            {answers.name}
-          </span>{" "}
-          <input
-            className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
-            value={input}
-            type="text"
-            placeholder={`Enter ${answers.itemName}`}
-            onChange={checkInput}
-          />
+          <div className="flex justify-start w-full h-5 bg-indigo-100 border border-indigo-200 shadow-sm rounded-full">
+            <div
+              className={`bg-indigo-950 h-5 rounded-full`}
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
         </div>
       </div>
-      <div className="relative flex py-5 items-center">
-        <div className="flex-grow border-t border-indigo-950"></div>
-        <span className="flex-shrink mx-4 text-indigo-950 text-2xl font-sans">
-          Scoreboard
-        </span>
-        <div className="flex-grow border-t border-indigo-950"></div>
-      </div>
-      {/* <progress value={percentage} max={100} /> */}
 
       {!endGame ? (
         <>
@@ -121,11 +119,11 @@ function TypingQuiz() {
         </>
       ) : (
         <Result
-          name={answers.name}
+          name={quiz.name}
           score={score}
           maxScore={maxScore}
           scoredAnswers={scoredAnswers}
-          fileName={state.quiz}
+          fileName={quiz}
         />
       )}
     </div>
