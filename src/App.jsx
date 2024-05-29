@@ -4,6 +4,7 @@ import Home from "./pages/home/Home";
 import QuizTyping from "./pages/typing-quiz/QuizTyping";
 import Header from "./components/header/Header";
 import { getQuiz } from "./utils/getQuiz";
+import ResultsProvider from "./results-provider";
 
 function App() {
   let FindQuiz = () => {
@@ -21,15 +22,17 @@ function App() {
     <div className="mb-10 mx-auto">
       {/* <Header /> */}
       <div className="">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/result" element={<Result />} />
-          <Route path="/play">
-            {/* Add more routes here as I build more types of quizes */}
-            <Route path="typing/:quizName" element={<FindQuiz />} />
-          </Route>
-          <Route path="/*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <ResultsProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/result" element={<Result />} />
+            <Route path="/play">
+              {/* Add more routes here as I build more types of quizes */}
+              <Route path="typing/:quizName" element={<FindQuiz />} />
+            </Route>
+            <Route path="/*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </ResultsProvider>
       </div>
     </div>
   );

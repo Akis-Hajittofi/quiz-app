@@ -1,19 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import "./QuizTyping.css";
+import { useContext, useEffect, useState } from "react";
 import CountdownTimer from "../../components/CountdownTimer/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import Answers from "../../components/answers/Answers";
-import Result from "../result/Result";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
+import { ResultsContext } from "../../results-provider";
 
 function TypingQuiz({ quiz }) {
   const navigate = useNavigate();
-
   const maxScore = quiz.data.length;
   const [score, setScore] = useState(0);
   const [percentage, setPercentage] = useState(0);
-  const [endGame, setEndGame] = useState(false);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [results, setResults] = useContext(ResultsContext);
 
   const [input, setInput] = useState("");
   const [scoredAnswers, setScoredAnswers] = useState(
@@ -22,6 +22,19 @@ function TypingQuiz({ quiz }) {
       scoredAnswer: false,
     }))
   );
+
+  useEffect(() => {
+    if (gameEnd) {
+      setResults({
+        quiz,
+        score,
+        scoredAnswers,
+        percentage,
+        maxScore,
+      });
+      navigate("/result");
+    }
+  }, [gameEnd, setGameEnd]);
 
   const checkInput = (e) => {
     setInput(e.target.value);
@@ -58,11 +71,10 @@ function TypingQuiz({ quiz }) {
 
     setScore(incrementedScore);
     if (incrementedScore === maxScore) {
-      setEndGame(true);
+      setGameEnd(true);
     }
     setInput("");
   };
-  console.log(scoredAnswers);
 
   return (
     <div className="w-full lg:w-2/3 mx-auto">
@@ -74,7 +86,7 @@ function TypingQuiz({ quiz }) {
           <ArrowLeft size={35} />
         </button>
         <button
-          onClick={() => setEndGame(true)}
+          onClick={() => setGameEnd(true)}
           className="text-indigo-950 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
         >
           <Skull size={30} />
@@ -98,7 +110,7 @@ function TypingQuiz({ quiz }) {
         <CountdownTimer
           minutes={quiz.timeLimit.minutes}
           seconds={quiz.timeLimit.seconds}
-          setEndGame={setEndGame}
+          setEndGame={setGameEnd}
         />
         <div className="flex flex-row w-11/12  px-8 space-x-3 items-center font-semibold text-indigo-950 font-sans text-3xl">
           <Coins size={30} />
@@ -112,20 +124,7 @@ function TypingQuiz({ quiz }) {
           </div>
         </div>
       </div>
-
-      {!endGame ? (
-        <>
-          <Answers answers={scoredAnswers} quizFinished={false} />
-        </>
-      ) : (
-        <Result
-          name={quiz.name}
-          score={score}
-          maxScore={maxScore}
-          scoredAnswers={scoredAnswers}
-          fileName={quiz}
-        />
-      )}
+      <Answers answers={scoredAnswers} gameEnd={false} />
     </div>
   );
 }
