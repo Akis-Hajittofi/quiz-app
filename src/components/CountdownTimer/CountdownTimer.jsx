@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./CountdownTimer.css";
-import TimerIcon from "@mui/icons-material/Timer";
+import { Hourglass } from "lucide-react";
 
 const CountdownTimer = ({ minutes, seconds, setEndGame }) => {
   const [timeLeft, setTimeLeft] = useState(minutes * 60 + seconds);
@@ -21,12 +21,12 @@ const CountdownTimer = ({ minutes, seconds, setEndGame }) => {
   const secondsLeft = timeLeft % 60;
 
   return (
-    <div className="countdownTimer">
-      <TimerIcon className="countdownTimer__icon" />
-      <h3 className="countdownTimer__text">
+    <span className="flex flex-row space-x-2 items-center font-semibold text-indigo-950 font-sans text-3xl">
+      <Hourglass size={30} />
+      <span>
         {minutesLeft}:{secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft}
-      </h3>
-    </div>
+      </span>
+    </span>
   );
 };
 

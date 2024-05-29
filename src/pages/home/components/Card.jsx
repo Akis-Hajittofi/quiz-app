@@ -1,11 +1,6 @@
-import React from "react";
-// import "./QuizRow.css";
 import { useNavigate } from "react-router-dom";
-import KeyboardIcon from "@mui/icons-material/Keyboard";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import ListIcon from "@mui/icons-material/List";
-import { PlayIcon } from "../../../assets/icons";
-import { Bookmark, CirclePlay, Gamepad2, Keyboard } from "lucide-react";
+import { Bookmark, Gamepad2, Keyboard } from "lucide-react";
 
 function Card({ name, subtitle, quizType, fileName, image }) {
   const navigate = useNavigate();
@@ -18,20 +13,13 @@ function Card({ name, subtitle, quizType, fileName, image }) {
     }
   };
 
-  // TODO:
-  // Finish off the design of the cards so that I can move on to the Quiz Typing page.
-  // Don't spend too much time on this for now, I need to get more functionality done.
-  // Have the play button on the bottom right
-  // Look into changing the font style of my app using Tailwind
-  // Have some sort of nav or filtering on this page as well
-
   return (
-    <div className="relative w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
-      <div className="h-32 rounded-t-md overflow-hidden ...">
+    <div className="relative w-full sm:w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
+      <div className="h-36 rounded-t-md overflow-hidden ...">
         <img src={image} alt="" className="" />
       </div>
 
-      <div className="flex flex-col justify-between p-3 h-52">
+      <div className="flex flex-col justify-between p-3 h-40 sm:h-48">
         <div className="flex flex-col text-indigo-950">
           <div className="font-bold font-sans text-xl ">
             <span className="p-0 m-0 inline space-x-1">{name}</span>
@@ -45,9 +33,7 @@ function Card({ name, subtitle, quizType, fileName, image }) {
             size={35}
             strokeWidth={1}
             className=" text-fuchsia-950 hover:cursor-pointer"
-            onClick={() =>
-              navigate(`/quiz-${quizType}`, { state: { quiz: fileName } })
-            }
+            onClick={() => navigate(`/play/typing/${fileName}`)}
           />
         </div>
       </div>
