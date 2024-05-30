@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState } from "react";
-import CountdownTimer from "../../components/CountdownTimer/CountdownTimer";
+import CountdownTimer from "../components/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import Answers from "../../components/answers/Answers";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
-import { ResultsContext } from "../../results-provider";
+import { ResultsContext } from "../../../results-provider";
 
-function TypingQuiz({ quiz }) {
+function Typing({ quiz }) {
   const navigate = useNavigate();
   const maxScore = quiz.data.length;
   const [score, setScore] = useState(0);
@@ -32,7 +32,7 @@ function TypingQuiz({ quiz }) {
         percentage,
         maxScore,
       });
-      navigate("/result");
+      navigate("/results");
     }
   }, [gameEnd, setGameEnd]);
 
@@ -129,4 +129,4 @@ function TypingQuiz({ quiz }) {
   );
 }
 
-export default TypingQuiz;
+export default Typing;

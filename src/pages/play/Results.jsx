@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import Answers from "../../components/answers/Answers";
+import Answers from "./components/Answers";
 import { ResultsContext } from "../../results-provider";
 
-function Result() {
+function Results() {
   const [results] = useContext(ResultsContext);
   const { score, maxScore, percentage, quiz, scoredAnswers } = results;
 
@@ -25,4 +25,4 @@ function Result() {
   );
 }
 
-export default Result;
+export default Results;
