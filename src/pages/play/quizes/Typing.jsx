@@ -3,7 +3,7 @@
 import { useContext, useEffect, useState } from "react";
 import CountdownTimer from "../components/CountdownTimer";
 import { useNavigate } from "react-router-dom";
-import Answers from "../../components/answers/Answers";
+import Answers from "../components/Answers";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
 import { ResultsContext } from "../../../results-provider";
 

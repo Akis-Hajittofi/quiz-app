@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./CountdownTimer.css";
 import { Hourglass } from "lucide-react";
 
 const CountdownTimer = ({ minutes, seconds, setEndGame }) => {
