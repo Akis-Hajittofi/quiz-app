@@ -1,19 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import "./QuizTyping.css";
-import CountdownTimer from "../../components/CountdownTimer/CountdownTimer";
+import { useContext, useEffect, useState } from "react";
+import CountdownTimer from "../components/CountdownTimer";
 import { useNavigate } from "react-router-dom";
-import Answers from "../../components/answers/Answers";
-import Result from "../result/Result";
+import Answers from "../components/Answers";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
+import { ResultsContext } from "../../../results-provider";
 
-function TypingQuiz({ quiz }) {
+function Typing({ quiz }) {
   const navigate = useNavigate();
-
   const maxScore = quiz.data.length;
   const [score, setScore] = useState(0);
   const [percentage, setPercentage] = useState(0);
-  const [endGame, setEndGame] = useState(false);
+  const [gameEnd, setGameEnd] = useState(false);
+  const [results, setResults] = useContext(ResultsContext);
 
   const [input, setInput] = useState("");
   const [scoredAnswers, setScoredAnswers] = useState(
@@ -22,6 +22,20 @@ function TypingQuiz({ quiz }) {
       scoredAnswer: false,
     }))
   );
+
+  useEffect(() => {
+    if (gameEnd) {
+      setResults({
+        ...results,
+        quiz,
+        score,
+        scoredAnswers,
+        percentage,
+        maxScore,
+      });
+      navigate("/results");
+    }
+  }, [gameEnd, setGameEnd]);
 
   const checkInput = (e) => {
     setInput(e.target.value);
@@ -58,14 +72,13 @@ function TypingQuiz({ quiz }) {
 
     setScore(incrementedScore);
     if (incrementedScore === maxScore) {
-      setEndGame(true);
+      setGameEnd(true);
     }
     setInput("");
   };
-  console.log(scoredAnswers);
 
   return (
-    <div className="w-full lg:w-2/3 mx-auto">
+    <div className="lg:w-2/3 mx-auto">
       <div className="flex flex-row mt-4 justify-between items-start px-5">
         <button
           onClick={() => navigate("/")}
@@ -74,7 +87,7 @@ function TypingQuiz({ quiz }) {
           <ArrowLeft size={35} />
         </button>
         <button
-          onClick={() => setEndGame(true)}
+          onClick={() => setGameEnd(true)}
           className="text-indigo-950 grid place-content-center hover:bg-indigo-50 hover:bg-opacity-50 hover:shadow-sm hover:rounded-full transition-all duration-100 ease-in-out"
         >
           <Skull size={30} />
@@ -83,9 +96,9 @@ function TypingQuiz({ quiz }) {
       <div className="flex flex-col items-center pb-10">
         <div className="flex flex-row py-7">
           <div className="flex flex-col items-center">
-            <span className="text-indigo-950 mb-4 w-fit font-semibold font-sans text-3xl">
+            <span className="text-indigo-950 mb-4 font-semibold font-sans text-3xl">
               {quiz.name}
-            </span>{" "}
+            </span>
             <input
               className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
               value={input}
@@ -98,7 +111,8 @@ function TypingQuiz({ quiz }) {
         <CountdownTimer
           minutes={quiz.timeLimit.minutes}
           seconds={quiz.timeLimit.seconds}
-          setEndGame={setEndGame}
+          setGameEnd={setGameEnd}
+          endGame={gameEnd}
         />
         <div className="flex flex-row w-11/12  px-8 space-x-3 items-center font-semibold text-indigo-950 font-sans text-3xl">
           <Coins size={30} />
@@ -112,22 +126,9 @@ function TypingQuiz({ quiz }) {
           </div>
         </div>
       </div>
-
-      {!endGame ? (
-        <>
-          <Answers answers={scoredAnswers} quizFinished={false} />
-        </>
-      ) : (
-        <Result
-          name={quiz.name}
-          score={score}
-          maxScore={maxScore}
-          scoredAnswers={scoredAnswers}
-          fileName={quiz}
-        />
-      )}
+      <Answers answers={scoredAnswers} gameEnd={false} />
     </div>
   );
 }
 
-export default TypingQuiz;
+export default Typing;
