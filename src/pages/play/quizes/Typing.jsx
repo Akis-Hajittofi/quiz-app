@@ -26,6 +26,7 @@ function Typing({ quiz }) {
   useEffect(() => {
     if (gameEnd) {
       setResults({
+        ...results,
         quiz,
         score,
         scoredAnswers,
@@ -77,7 +78,7 @@ function Typing({ quiz }) {
   };
 
   return (
-    <div className="w-full lg:w-2/3 mx-auto">
+    <div className="lg:w-2/3 mx-auto">
       <div className="flex flex-row mt-4 justify-between items-start px-5">
         <button
           onClick={() => navigate("/")}
@@ -95,9 +96,9 @@ function Typing({ quiz }) {
       <div className="flex flex-col items-center pb-10">
         <div className="flex flex-row py-7">
           <div className="flex flex-col items-center">
-            <span className="text-indigo-950 mb-4 w-fit font-semibold font-sans text-3xl">
+            <span className="text-indigo-950 mb-4 font-semibold font-sans text-3xl">
               {quiz.name}
-            </span>{" "}
+            </span>
             <input
               className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
               value={input}
@@ -110,7 +111,8 @@ function Typing({ quiz }) {
         <CountdownTimer
           minutes={quiz.timeLimit.minutes}
           seconds={quiz.timeLimit.seconds}
-          setEndGame={setGameEnd}
+          setGameEnd={setGameEnd}
+          endGame={gameEnd}
         />
         <div className="flex flex-row w-11/12  px-8 space-x-3 items-center font-semibold text-indigo-950 font-sans text-3xl">
           <Coins size={30} />
