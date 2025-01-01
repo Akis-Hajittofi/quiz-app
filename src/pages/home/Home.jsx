@@ -1,16 +1,33 @@
 import Card from "./components/Card";
 import { useNavigate } from "react-router-dom";
-import list from "../../data/list/list.json";
 import { BookText, Dices, Search, Shuffle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function Home() {
   const navigate = useNavigate();
+  const [quizzes, setQuizzes] = useState([]);
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/quizzes");
+        if (!response.ok) {
+          throw new Error("Failed to fetch answers");
+        }
+        const data = await response.json();
+        setQuizzes(data);
+      } catch (error) {
+        console.error("Error fetching answers:", error);
+      }
+    };
+
+    fetchQuizzes();
+  }, [setQuizzes]);
 
   const randomQuiz = () => {
-    const randomisedQuiz =
-      list.data[Math.floor(Math.random() * list.data.length)];
+    const randomisedQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
 
-    navigate(`/play/typing/${randomisedQuiz.fileName}`);
+    navigate(`/play/typing/${randomisedQuiz.Name}`);
   };
 
   return (
@@ -46,13 +63,14 @@ function Home() {
       </nav>
 
       <div className="flex flex-wrap p-5 gap-4 justify-center">
-        {list.data.map((quiz, index) => (
+        {quizzes.map((quiz, index) => (
           <Card
-            name={quiz.name}
-            subtitle={quiz.subtitle}
-            quizType={quiz.quizType}
-            fileName={quiz.fileName}
-            image={quiz.image}
+            name={quiz.Name}
+            subtitle={quiz.Subheading}
+            quizType={"typing"}
+            quizId={quiz.QuizID}
+            image={quiz.ImageUrl}
+            timeLimitSeconds={quiz.TimeLimitSeconds}
             key={index}
           />
         ))}

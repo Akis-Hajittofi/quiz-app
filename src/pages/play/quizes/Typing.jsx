@@ -7,21 +7,25 @@ import Answers from "../components/Answers";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
 import { ResultsContext } from "../../../results-provider";
 
-function Typing({ quiz }) {
+function Typing({ quiz, answers }) {
   const navigate = useNavigate();
-  const maxScore = quiz.data.length;
+  const maxScore = answers.length;
   const [score, setScore] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [gameEnd, setGameEnd] = useState(false);
   const [results, setResults] = useContext(ResultsContext);
 
   const [input, setInput] = useState("");
-  const [scoredAnswers, setScoredAnswers] = useState(
-    Array.from({ length: quiz.data.length }, () => ({
-      name: " ",
-      scoredAnswer: false,
-    }))
-  );
+  const [scoredAnswers, setScoredAnswers] = useState(undefined);
+
+  useEffect(() => {
+    setScoredAnswers(
+      Array.from({ length: answers.length }, () => ({
+        Answer: " ",
+        scoredAnswer: false,
+      }))
+    );
+  }, [answers]);
 
   useEffect(() => {
     if (gameEnd) {
@@ -29,6 +33,7 @@ function Typing({ quiz }) {
         ...results,
         quiz,
         score,
+        answers,
         scoredAnswers,
         percentage,
         maxScore,
@@ -37,16 +42,20 @@ function Typing({ quiz }) {
     }
   }, [gameEnd, setGameEnd]);
 
+  if (!quiz) {
+    return <div>Quiz is loading...</div>; // Handle missing quiz data
+  }
+
   const checkInput = (e) => {
     setInput(e.target.value);
     const value = e.target.value.toLowerCase();
 
     const correctAnswersLowerCase = scoredAnswers.map((obj) =>
-      obj.name.toLowerCase()
+      obj.Answer.toLowerCase()
     );
 
-    const index = quiz.data.findIndex((item) => {
-      return item.name.toLowerCase() === value;
+    const index = answers.findIndex((item) => {
+      return item.Answer.toLowerCase() === value;
     });
 
     if (index !== -1 && !correctAnswersLowerCase.includes(value)) {
@@ -57,9 +66,9 @@ function Typing({ quiz }) {
   const recordCorrectAnswer = (index) => {
     const incrementedScore = score + 1;
     const updatedCorrectAnswers = [...scoredAnswers];
-    const str = quiz.data[index].name;
+    const str = answers[index].Answer;
     updatedCorrectAnswers[index] = {
-      name: str.charAt(0).toUpperCase() + str.slice(1),
+      Answer: str.charAt(0).toUpperCase() + str.slice(1),
       scoredAnswer: true,
     };
 
@@ -97,20 +106,19 @@ function Typing({ quiz }) {
         <div className="flex flex-row py-7">
           <div className="flex flex-col items-center">
             <span className="text-indigo-950 mb-4 font-semibold font-sans text-3xl">
-              {quiz.name}
+              {quiz.Name}
             </span>
             <input
               className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
               value={input}
               type="text"
-              placeholder={`Enter ${quiz.itemName}`}
+              placeholder={`Enter ${"Answer"}`}
               onChange={checkInput}
             />
           </div>
         </div>
         <CountdownTimer
-          minutes={quiz.timeLimit.minutes}
-          seconds={quiz.timeLimit.seconds}
+          timeLimitSeconds={quiz.TimeLimitSeconds}
           setGameEnd={setGameEnd}
           endGame={gameEnd}
         />

@@ -3,8 +3,8 @@ import { Hourglass } from "lucide-react";
 import { useContext } from "react";
 import { ResultsContext } from "../../../results-provider";
 
-const CountdownTimer = ({ minutes, seconds, gameEnd, setGameEnd }) => {
-  const [timeLeft, setTimeLeft] = useState(minutes * 60 + seconds);
+const CountdownTimer = ({ timeLimitSeconds, gameEnd, setGameEnd }) => {
+  const [timeLeft, setTimeLeft] = useState(timeLimitSeconds);
   const [results, setResults] = useContext(ResultsContext);
   const minutesLeft = Math.floor(timeLeft / 60);
   const secondsLeft = timeLeft % 60;
