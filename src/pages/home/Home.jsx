@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 function Home() {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
+  const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
-        const response = await fetch("http://localhost:3000/quizzes");
+        const response = await fetch(`${api}/quizzes/`);
         if (!response.ok) {
           throw new Error("Failed to fetch answers");
         }

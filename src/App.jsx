@@ -18,6 +18,7 @@ function App() {
     const [quiz, setQuiz] = useState(null);
     const [answers, setAnswers] = useState(null);
     const [loading, setLoading] = useState(true); // To track the loading state
+    const api = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
       const fetchQuizWithAnswers = async () => {
@@ -26,9 +27,7 @@ function App() {
           const quizState = location.state;
 
           const retrieveAnswers = async (id) => {
-            const answersResponse = await fetch(
-              `http://localhost:3000/answers/${id}`
-            );
+            const answersResponse = await fetch(`${api}/answers/${id}`);
             if (!answersResponse.ok) {
               throw new Error("Failed to fetch answers");
             }
@@ -51,9 +50,7 @@ function App() {
             } else if (!location.state) {
               console.log("NUMBER FIVE");
               // Fetch the quiz & answers from DB, from typing in URL
-              const quizResponse = await fetch(
-                `http://localhost:3000/quizzes/${quizName}`
-              );
+              const quizResponse = await fetch(`${api}/quizzes/${quizName}`);
               if (!quizResponse.ok) {
                 throw new Error("Failed to fetch quiz");
               }
