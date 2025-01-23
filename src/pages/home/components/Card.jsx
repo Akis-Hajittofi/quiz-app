@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import { Bookmark, Gamepad2, Keyboard } from "lucide-react";
 
-function Card({ name, subtitle, quizType, quizId, timeLimitSeconds, image }) {
+function Card({ name, subtitle, quizType, image, onCardClick }) {
   const navigate = useNavigate();
 
   const getIcon = (quizType) => {
@@ -14,14 +14,11 @@ function Card({ name, subtitle, quizType, quizId, timeLimitSeconds, image }) {
     }
   };
 
-  const handleClick = () => {
-    navigate(`/play/typing/${name.replace(/\s+/g, "-").toLowerCase()}`, {
-      state: { Name: name, QuizID: quizId, TimeLimitSeconds: timeLimitSeconds },
-    });
-  };
-
   return (
-    <div className="relative w-full sm:w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer">
+    <div
+      className="relative w-full sm:w-56 h-fit rounded-lg border bg-card text-card-foreground  hover:shadow-md hover:scale-105 transition-all duration-300 hover:cursor-pointer"
+      onClick={onCardClick}
+    >
       <div className="h-36 rounded-t-md overflow-hidden ...">
         <img src={image} alt="" className="" />
       </div>
@@ -40,7 +37,6 @@ function Card({ name, subtitle, quizType, quizId, timeLimitSeconds, image }) {
             size={35}
             strokeWidth={1}
             className=" text-fuchsia-950 hover:cursor-pointer"
-            onClick={handleClick}
           />
         </div>
       </div>

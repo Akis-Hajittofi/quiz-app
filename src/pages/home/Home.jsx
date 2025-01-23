@@ -1,11 +1,16 @@
 import Card from "./components/Card";
 import { useNavigate } from "react-router-dom";
-import { BookText, Dices, Search, Shuffle } from "lucide-react";
+import { BookText, Dices, Search, Shuffle, Gamepad2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function Home() {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
+
+  const [name, setName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedQuiz, setSelectedQuiz] = useState(null); // Tracks which quiz was clicked
+
   const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -29,6 +34,23 @@ function Home() {
     const randomisedQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
 
     navigate(`/play/typing/${randomisedQuiz.Name}`);
+  };
+
+  const handlePlayQuiz = (quiz) => {
+    const storedName = localStorage.getItem("playerName");
+
+    if (!storedName) {
+      setSelectedQuiz(quiz); // Store the clicked quiz
+      setIsModalOpen(true); // Open the modal
+    } else {
+      navigate(`/play/typing/${quiz.Name.replace(/\s+/g, "-").toLowerCase()}`, {
+        state: {
+          Name: quiz.Name,
+          QuizID: quiz.QuizID,
+          TimeLimitSeconds: quiz.TimeLimitSeconds,
+        },
+      });
+    }
   };
 
   return (
@@ -69,13 +91,47 @@ function Home() {
             name={quiz.Name}
             subtitle={quiz.Subheading}
             quizType={"typing"}
-            quizId={quiz.QuizID}
             image={quiz.ImageUrl}
-            timeLimitSeconds={quiz.TimeLimitSeconds}
             key={index}
+            onCardClick={() => handlePlayQuiz(quiz)}
           />
         ))}
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 space-y-3 max-w-md text-indigo-950">
+            <h2 className="text-xl font-semibold text-center">
+              Enter Your Name
+            </h2>
+            <p className="text-sm w-3/4 mx-auto text-center font-thin italic">
+              Please be aware that your name may be visible to others on the
+              leaderboard
+            </p>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your Name"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={() => {
+                if (name.trim()) {
+                  localStorage.setItem("playerName", name);
+                  setIsModalOpen(false);
+                  handlePlayQuiz(selectedQuiz);
+                }
+              }}
+              className="mt-4 w-full px-4 py-2 bg-fuchsia-950  text-white rounded-lg hover:bg-fuchsia-800"
+            >
+              <div className="flex items-center justify-center">
+                <span className="pr-2">Play Quiz</span>
+                <Gamepad2 className="p-0 m-0" size={25} />
+              </div>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

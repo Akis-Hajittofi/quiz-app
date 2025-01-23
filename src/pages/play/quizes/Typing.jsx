@@ -17,6 +17,7 @@ function Typing({ quiz, answers }) {
 
   const [input, setInput] = useState("");
   const [scoredAnswers, setScoredAnswers] = useState(undefined);
+  const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     setScoredAnswers(
@@ -28,6 +29,32 @@ function Typing({ quiz, answers }) {
   }, [answers]);
 
   useEffect(() => {
+    const submitQuizResult = async () => {
+      try {
+        const response = await fetch(`${api}/leaderboards`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            QuizID: quiz.QuizID,
+            Username: localStorage.getItem("playerName"),
+            Score: score,
+            ScorePercentage: percentage,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to submit quiz result");
+        }
+
+        const data = await response.json();
+        console.log("Success:", data);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+
     if (gameEnd) {
       setResults({
         ...results,
@@ -38,6 +65,7 @@ function Typing({ quiz, answers }) {
         percentage,
         maxScore,
       });
+      submitQuizResult();
       navigate("/results");
     }
   }, [gameEnd, setGameEnd]);
@@ -75,7 +103,7 @@ function Typing({ quiz, answers }) {
     setScoredAnswers([...updatedCorrectAnswers]);
 
     const calculatePercentage = (incrementedScore, maxScore) => {
-      return ((incrementedScore / maxScore) * 100).toFixed(2);
+      return Number(((incrementedScore / maxScore) * 100).toFixed(2));
     };
     setPercentage(calculatePercentage(incrementedScore, maxScore));
 
