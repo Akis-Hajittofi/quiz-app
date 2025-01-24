@@ -123,7 +123,7 @@ app.get("/leaderboards/:QuizID", async (req: Request, res: Response) => {
 
   try {
     const [leaderboard] = await pool.query<RowDataPacket[]>(
-      "SELECT * FROM leaderboards WHERE QuizID = ? ORDER BY ScorePercentage ASC",
+      "SELECT * FROM leaderboards WHERE QuizID = ? ORDER BY ScorePercentage DESC",
       [QuizID]
     );
 
