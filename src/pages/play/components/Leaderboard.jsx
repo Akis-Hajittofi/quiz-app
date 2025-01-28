@@ -1,0 +1,115 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/prop-types */
+
+import { useEffect, useState } from "react";
+
+function Leaderboard({ quizID }) {
+  const api = import.meta.env.VITE_API_URL;
+
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [meta, setMeta] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    pageSize: 10,
+    totalRows: 0,
+  });
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch(
+          `${api}/leaderboards/${quizID}?page=${meta.currentPage}&limit=${meta.pageSize}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch leaderboard");
+        }
+        const data = await response.json();
+        setLeaderboard(data.data);
+
+        setMeta(data.meta);
+      } catch (error) {
+        console.error("Error fetching Leaderboard:", error);
+      }
+    };
+    fetchLeaderboard();
+  }, []);
+
+  const handleShowMore = () => {
+    const nextPage = meta.currentPage + 1;
+    const showMore = async () => {
+      try {
+        const response = await fetch(
+          `${api}/leaderboards/${quizID}?page=${nextPage}&limit=${meta.pageSize}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch leaderboard");
+        }
+        const data = await response.json();
+        console.log("THE DATA", data);
+        setLeaderboard((prevLeaderboard) => [...prevLeaderboard, ...data.data]);
+        setMeta(data.meta);
+      } catch (error) {
+        console.error("Error fetching Leaderboard:", error);
+      }
+    };
+    showMore();
+  };
+
+  return (
+    <div className="flex flex-col justify-center mt-5">
+      <table className="table-auto border-collapse border border-gray-300 shadow-sm w-full">
+        <thead>
+          <tr className="bg-indigo-100 text-indigo-800 font-semibold">
+            <th className="border border-gray-300 px-4 py-2">#</th>
+            <th className="border border-gray-300 px-4 py-2">Username</th>
+            <th className="border border-gray-300 px-4 py-2">Score</th>
+            <th className="border border-gray-300 px-4 py-2">Score %</th>
+            <th className="border border-gray-300 px-4 py-2">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((obj, index) => (
+            <tr
+              key={index}
+              className={`${
+                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+              } hover:bg-indigo-50`}
+            >
+              <td className="border border-gray-300 px-4 py-2 text-center">
+                {index + 1}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {obj.Username}
+              </td>
+              <td className="border border-gray-300 px-4 py-2 text-right">
+                {obj.Score}
+              </td>
+              <td className="border border-gray-300 px-4 py-2 text-right">
+                {obj.ScorePercentage}%
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {new Date(obj.DateOfScore).toLocaleDateString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="w-full mt-5 flex justify-center">
+        <button
+          onClick={handleShowMore}
+          className={`bg-blue-900 text-white rounded-xl text-base w-fit h-fit p-3 grid grid-rows-auto place-content-center shadow-md ${
+            meta.currentPage >= meta.totalPages &&
+            "opacity-50 cursor-not-allowed"
+          } `}
+          disabled={meta.currentPage >= meta.totalPages}
+        >
+          <span className="flex flex-row space-x-1">
+            <span>Show More</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Leaderboard;
