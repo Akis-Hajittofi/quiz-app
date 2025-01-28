@@ -3,14 +3,13 @@ import Answers from "./components/Answers";
 import { ResultsContext } from "../../results-provider";
 import { LayoutGrid, RotateCcw, Trophy } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Leaderboard from "./components/Leaderboard";
 
 function Results() {
   const navigate = useNavigate();
   const [results] = useContext(ResultsContext);
   const { quiz, score, maxScore, percentage, answers, scoredAnswers } = results;
-  const api = import.meta.env.VITE_API_URL;
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [leaderboard, setLeaderboard] = useState(null);
 
   const filledAnswers = scoredAnswers?.map((obj, index) =>
     obj.Answer === " "
@@ -33,20 +32,7 @@ function Results() {
   };
 
   const handleLeaderboard = () => {
-    const fetchLeaderboard = async () => {
-      try {
-        const response = await fetch(`${api}/leaderboards/${quiz.QuizID}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch leaderboard");
-        }
-        const data = await response.json();
-        setLeaderboard(data);
-        setShowLeaderboard(true);
-      } catch (error) {
-        console.error("Error fetching Leaderboard:", error);
-      }
-    };
-    fetchLeaderboard();
+    setShowLeaderboard(true);
   };
 
   return (
@@ -122,47 +108,7 @@ function Results() {
         </div>
       </div>
 
-      {showLeaderboard && (
-        <div className="flex justify-center mt-5">
-          <table className="table-auto border-collapse border border-gray-300 shadow-sm w-full">
-            <thead>
-              <tr className="bg-indigo-100 text-indigo-800 font-semibold">
-                <th className="border border-gray-300 px-4 py-2">#</th>
-                <th className="border border-gray-300 px-4 py-2">Username</th>
-                <th className="border border-gray-300 px-4 py-2">Score</th>
-                <th className="border border-gray-300 px-4 py-2">Score %</th>
-                <th className="border border-gray-300 px-4 py-2">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaderboard.map((obj, index) => (
-                <tr
-                  key={index}
-                  className={`${
-                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                  } hover:bg-indigo-50`}
-                >
-                  <td className="border border-gray-300 px-4 py-2 text-center">
-                    {index + 1}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {obj.Username}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2 text-right">
-                    {obj.Score}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2 text-right">
-                    {obj.ScorePercentage}%
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {new Date(obj.DateOfScore).toLocaleDateString()}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      {showLeaderboard && <Leaderboard quizID={quiz.QuizID} />}
 
       <Answers answers={filledAnswers} gameEnd={true} />
     </div>

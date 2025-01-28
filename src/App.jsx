@@ -37,18 +37,14 @@ function App() {
 
           if (location.state && location.state.answers) {
             // If clicking try again
-            console.log("NUMBER ONE");
             setQuiz(quizState);
             setAnswers(quizState.answers);
           } else {
-            console.log("NUMBER TWO");
             if (location.state && !answers) {
-              console.log("NUMBER THREE");
               // Get quiz from the state after clicking on card
               setQuiz(quizState);
               retrieveAnswers(quizState.QuizID);
             } else if (!location.state) {
-              console.log("NUMBER FIVE");
               // Fetch the quiz & answers from DB, from typing in URL
               const quizResponse = await fetch(`${api}/quizzes/${quizName}`);
               if (!quizResponse.ok) {
