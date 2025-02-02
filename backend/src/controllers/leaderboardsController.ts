@@ -93,7 +93,18 @@ export const getLeaderboardByQuizID = async (req: Request, res: Response) => {
     const offset = (pageNumber - 1) * pageLimit;
 
     const [leaderboard] = await pool.query<RowDataPacket[]>(
-      "SELECT * FROM leaderboards WHERE QuizID = ? ORDER BY ScorePercentage DESC LIMIT ? OFFSET ?",
+      `
+      SELECT 
+          ROW_NUMBER() OVER (ORDER BY ScorePercentage DESC) AS RowNumber,
+          Username,
+          Score,
+          ScorePercentage,
+          DateOfScore
+      FROM leaderboards
+      WHERE QuizID = ?
+      ORDER BY ScorePercentage DESC
+      LIMIT ? OFFSET ?
+      `,
       [QuizID, pageLimit, offset]
     );
 
