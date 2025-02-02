@@ -88,7 +88,7 @@ function Leaderboard({ quizID }) {
             </tr>
           </thead>
           <tbody>
-            {leaderboard.map((obj, index) => (
+            {leaderboard.map((entry, index) => (
               <tr
                 key={index}
                 className={`${
@@ -96,19 +96,19 @@ function Leaderboard({ quizID }) {
                 } hover:bg-indigo-50`}
               >
                 <td className="border border-gray-300 px-4 py-2 text-center">
-                  {index + 1}
+                  {entry.RowNumber}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {obj.Username}
+                  {entry.Username}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-right">
-                  {obj.Score}
+                  {entry.Score}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-right">
-                  {obj.ScorePercentage}%
+                  {entry.ScorePercentage}%
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {new Date(obj.DateOfScore).toLocaleDateString()}
+                  {new Date(entry.DateOfScore).toLocaleDateString()}
                 </td>
               </tr>
             ))}
