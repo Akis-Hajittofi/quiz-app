@@ -4,6 +4,6 @@ import { getAllQuizzes, getQuizByName } from "../controllers/quizzesController";
 const router = Router();
 
 router.get("/", getAllQuizzes);
-router.get("/:Name", getQuizByName);
+router.get("/:name", getQuizByName);
 
 export default router;

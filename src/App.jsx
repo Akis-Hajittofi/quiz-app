@@ -43,7 +43,7 @@ function App() {
             if (location.state && !answers) {
               // Get quiz from the state after clicking on card
               setQuiz(quizState);
-              retrieveAnswers(quizState.QuizID);
+              retrieveAnswers(quizState.quizId);
             } else if (!location.state) {
               // Fetch the quiz & answers from DB, from typing in URL
               const quizResponse = await fetch(`${api}/quizzes/${quizName}`);
@@ -52,7 +52,7 @@ function App() {
               }
               const quizData = await quizResponse.json();
               setQuiz(quizData);
-              retrieveAnswers(quizData.QuizID);
+              retrieveAnswers(quizData.quizId);
             }
           }
         } catch (error) {

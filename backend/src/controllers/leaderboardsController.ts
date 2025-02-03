@@ -69,7 +69,15 @@ export const postLeaderboard = async (
 // GET all leaderboards
 export const getAllLeaderboards = async (req: Request, res: Response) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM leaderboards");
+    const [rows] = await pool.query(`
+      SELECT
+        ScoreID AS scoreId,
+        QuizID AS quizId,
+        Username AS username,
+        Score AS score,
+        ScorePercentage AS scorePercentage,
+        DateOfScore AS dateOfScore
+      FROM leaderboards`);
     res.json(rows);
   } catch (error) {
     console.error("Database error:", error);
@@ -79,7 +87,7 @@ export const getAllLeaderboards = async (req: Request, res: Response) => {
 
 // GET leaderboard by Quiz ID
 export const getLeaderboardByQuizID = async (req: Request, res: Response) => {
-  const { QuizID } = req.params;
+  const { quizId } = req.params;
   const { page, limit } = req.query;
 
   // Convert query params to numbers
@@ -93,7 +101,7 @@ export const getLeaderboardByQuizID = async (req: Request, res: Response) => {
   try {
     const [totalRowsResult] = await pool.query<RowDataPacket[]>(
       "SELECT COUNT(*) as total FROM leaderboards WHERE QuizID = ?",
-      [QuizID]
+      [quizId]
     );
     const totalRows = totalRowsResult[0].total;
 
@@ -112,17 +120,17 @@ export const getLeaderboardByQuizID = async (req: Request, res: Response) => {
     const [leaderboard] = await pool.query<RowDataPacket[]>(
       `
       SELECT 
-          ROW_NUMBER() OVER (ORDER BY ScorePercentage DESC) AS RowNumber,
-          Username,
-          Score,
-          ScorePercentage,
-          DateOfScore
+          ROW_NUMBER() OVER (ORDER BY ScorePercentage DESC) AS rowNumber,
+          Username AS username,
+          Score AS score,
+          ScorePercentage AS scorePercentage,
+          DateOfScore AS dateOfScore
       FROM leaderboards
       WHERE QuizID = ?
       ORDER BY ScorePercentage DESC
       LIMIT ? OFFSET ?
       `,
-      [QuizID, pageLimit, offset]
+      [quizId, pageLimit, offset]
     );
 
     res.json({

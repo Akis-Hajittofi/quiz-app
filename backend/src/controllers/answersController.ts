@@ -4,11 +4,15 @@ import { RowDataPacket } from "mysql2";
 
 // GET answers for a quiz
 export const getAnswersByQuizID = async (req: Request, res: Response) => {
-  const { QuizID } = req.params;
+  const { quizId } = req.params;
   try {
     const [foundAnswers] = await pool.query<RowDataPacket[]>(
-      "SELECT Answer FROM answers WHERE QuizID = ?",
-      [QuizID]
+      `
+      SELECT
+        Answer AS answer
+      FROM answers
+      WHERE QuizID = ?`,
+      [quizId]
     );
 
     if (foundAnswers.length === 0) {

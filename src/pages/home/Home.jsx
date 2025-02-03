@@ -33,7 +33,7 @@ function Home() {
   const randomQuiz = () => {
     const randomisedQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
 
-    navigate(`/play/typing/${randomisedQuiz.Name}`);
+    navigate(`/play/typing/${randomisedQuiz.name}`);
   };
 
   const handlePlayQuiz = (quiz) => {
@@ -43,11 +43,11 @@ function Home() {
       setSelectedQuiz(quiz); // Store the clicked quiz
       setIsModalOpen(true); // Open the modal
     } else {
-      navigate(`/play/typing/${quiz.Name.replace(/\s+/g, "-").toLowerCase()}`, {
+      navigate(`/play/typing/${quiz.name.replace(/\s+/g, "-").toLowerCase()}`, {
         state: {
-          Name: quiz.Name,
-          QuizID: quiz.QuizID,
-          TimeLimitSeconds: quiz.TimeLimitSeconds,
+          name: quiz.name,
+          quizId: quiz.quizId,
+          timeLimitSeconds: quiz.timeLimitSeconds,
         },
       });
     }
@@ -88,10 +88,10 @@ function Home() {
       <div className="flex flex-wrap p-5 gap-4 justify-center">
         {quizzes.map((quiz, index) => (
           <Card
-            name={quiz.Name}
-            subtitle={quiz.Subheading}
+            name={quiz.name}
+            subtitle={quiz.subheading}
             quizType={"typing"}
-            image={quiz.ImageUrl}
+            image={quiz.imageUrl}
             key={index}
             onCardClick={() => handlePlayQuiz(quiz)}
           />

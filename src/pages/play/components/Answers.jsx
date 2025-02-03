@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 function Answers({ answers, gameEnd }) {
   return (
     <div className="flex flex-row flex-wrap gap-3 items-center justify-center">
@@ -9,7 +10,7 @@ function Answers({ answers, gameEnd }) {
           key={index}
         >
           <span className="text-indigo-800 font-thin">{`${index + 1}) `}</span>
-          <span className="text-indigo-950">{`${obj.Answer} `}</span>
+          <span className="text-indigo-950">{`${obj.answer} `}</span>
         </span>
       ))}
     </div>

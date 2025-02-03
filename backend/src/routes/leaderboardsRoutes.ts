@@ -10,6 +10,6 @@ const router = Router();
 
 router.post("/", validateLeaderboardEntry, postLeaderboard);
 router.get("/", getAllLeaderboards);
-router.get("/:QuizID", getLeaderboardByQuizID);
+router.get("/:quizId", getLeaderboardByQuizID);
 
 export default router;

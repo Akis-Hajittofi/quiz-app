@@ -22,7 +22,7 @@ function Typing({ quiz, answers }) {
   useEffect(() => {
     setScoredAnswers(
       Array.from({ length: answers.length }, () => ({
-        Answer: " ",
+        answer: " ",
         scoredAnswer: false,
       }))
     );
@@ -37,10 +37,10 @@ function Typing({ quiz, answers }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            QuizID: quiz.QuizID,
-            Username: localStorage.getItem("playerName"),
-            Score: score,
-            ScorePercentage: percentage,
+            quizId: quiz.quizId,
+            username: localStorage.getItem("playerName"),
+            score,
+            scorePercentage: percentage,
           }),
         });
 
@@ -79,11 +79,11 @@ function Typing({ quiz, answers }) {
     const value = e.target.value.toLowerCase();
 
     const correctAnswersLowerCase = scoredAnswers.map((obj) =>
-      obj.Answer.toLowerCase()
+      obj.answer.toLowerCase()
     );
 
     const index = answers.findIndex((item) => {
-      return item.Answer.toLowerCase() === value;
+      return item.answer.toLowerCase() === value;
     });
 
     if (index !== -1 && !correctAnswersLowerCase.includes(value)) {
@@ -94,9 +94,9 @@ function Typing({ quiz, answers }) {
   const recordCorrectAnswer = (index) => {
     const incrementedScore = score + 1;
     const updatedCorrectAnswers = [...scoredAnswers];
-    const str = answers[index].Answer;
+    const str = answers[index].answer;
     updatedCorrectAnswers[index] = {
-      Answer: str.charAt(0).toUpperCase() + str.slice(1),
+      answer: str.charAt(0).toUpperCase() + str.slice(1),
       scoredAnswer: true,
     };
 
@@ -134,7 +134,7 @@ function Typing({ quiz, answers }) {
         <div className="flex flex-row py-7">
           <div className="flex flex-col items-center">
             <span className="text-indigo-950 mb-4 font-semibold font-sans text-3xl">
-              {quiz.Name}
+              {quiz.name}
             </span>
             <input
               className="border border-indigo-950 w-96 h-10 rounded-3xl text-xl text-indigo-950 text-center placeholder-indigo-100 placeholder-text"
@@ -146,7 +146,7 @@ function Typing({ quiz, answers }) {
           </div>
         </div>
         <CountdownTimer
-          timeLimitSeconds={quiz.TimeLimitSeconds}
+          timeLimitSeconds={quiz.timeLimitSeconds}
           setGameEnd={setGameEnd}
           endGame={gameEnd}
         />

@@ -8,24 +8,25 @@ import Leaderboard from "./components/Leaderboard";
 function Results() {
   const navigate = useNavigate();
   const [results] = useContext(ResultsContext);
-  const { quiz, score, maxScore, percentage, answers, scoredAnswers } = results;
+  const { quiz, score, maxScore, percentage, answers, scoredAnswers, timer } =
+    results;
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const filledAnswers = scoredAnswers?.map((obj, index) =>
-    obj.Answer === " "
-      ? { Answer: answers[index].Answer, scoredAnswer: false }
+    obj.answer === " "
+      ? { answer: answers[index].answer, scoredAnswer: false }
       : obj
   );
 
   const handleTryAgain = () => {
     navigate(
-      `/play/typing/${results.quiz.Name.replace(/\s+/g, "-").toLowerCase()}`,
+      `/play/typing/${results.quiz.name.replace(/\s+/g, "-").toLowerCase()}`,
       {
         state: {
-          Name: results.quiz.Name,
-          QuizID: results.quiz.QuizID,
-          TimeLimitSeconds: results.quiz.TimeLimitSeconds,
-          answers: answers,
+          name: quiz.name,
+          quizId: quiz.quizId,
+          timeLimitSeconds: quiz.timeLimitSeconds,
+          answers,
         },
       }
     );
@@ -40,7 +41,7 @@ function Results() {
       <div className="flex flex-col text-indigo-950 space-y-2 font-semibold font-sans text-3xl items-center ">
         <div className="flex flex-col items-center mb-10">
           <span className="font-bold text-4xl">Results</span>
-          <span className="">{quiz.Name}</span>
+          <span className="">{quiz.name}</span>
         </div>
 
         <div className="flex flex-col space-y-5 items-center w-3/4">
@@ -68,7 +69,7 @@ function Results() {
             </div>
             <div className="flex flex-col items-center">
               <span className="font-thin text-xl">Time Remaining:</span>
-              <span>{results.timer}</span>
+              <span>{timer}</span>
             </div>
           </div>
 
@@ -108,7 +109,7 @@ function Results() {
         </div>
       </div>
 
-      {showLeaderboard && <Leaderboard quizID={quiz.QuizID} />}
+      {showLeaderboard && <Leaderboard quizId={quiz.quizId} />}
 
       <Answers answers={filledAnswers} gameEnd={true} />
     </div>
