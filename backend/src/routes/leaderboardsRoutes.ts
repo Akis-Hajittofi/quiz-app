@@ -4,10 +4,11 @@ import {
   getLeaderboardByQuizID,
   postLeaderboard,
 } from "../controllers/leaderboardsController";
+import { validateLeaderboardEntry } from "../middlewares/validateLeaderboard";
 
 const router = Router();
 
-router.post("/", postLeaderboard);
+router.post("/", validateLeaderboardEntry, postLeaderboard);
 router.get("/", getAllLeaderboards);
 router.get("/:QuizID", getLeaderboardByQuizID);
 
