@@ -7,6 +7,10 @@ import {
   Shuffle,
   Gamepad2,
   LogIn,
+  PersonStanding,
+  Trophy,
+  BookmarkCheck,
+  CircleX,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
@@ -106,7 +110,7 @@ function Home() {
                   <LogIn size={32} className="text-white" />
                 </button>
               </SignInButton>
-              <span className="font-thin">Log In</span>
+              <span className="font-thin">Sign In</span>
             </div>
           </SignedOut>
           <SignedIn>
@@ -136,36 +140,62 @@ function Home() {
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 space-y-3 max-w-md text-indigo-950">
-            <h2 className="text-xl font-semibold text-center">
-              Enter Your Name
-            </h2>
-            <p className="text-sm w-3/4 mx-auto text-center font-thin italic">
-              Please be aware that your name may be visible to others on the
-              leaderboard
-            </p>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your Name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="relative bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-md items-center text-indigo-950">
             <button
               onClick={() => {
-                if (name.trim()) {
-                  localStorage.setItem("playerName", name);
-                  setIsModalOpen(false);
-                  handlePlayQuiz(selectedQuiz);
-                }
+                setIsModalOpen(false);
+                setSelectedQuiz(null);
               }}
-              className="mt-4 w-full px-4 py-2 bg-fuchsia-950  text-white rounded-lg hover:bg-fuchsia-800"
+              className="absolute top-3 right-4 text-gray-600 hover:text-gray-900"
             >
-              <div className="flex items-center justify-center">
-                <span className="pr-2">Play Quiz</span>
-                <Gamepad2 className="p-0 m-0" size={25} />
-              </div>
+              <CircleX />
             </button>
+            <div className="space-y-3">
+              <div className="w-full flex justify-center">
+                <h2 className="text-xl w-4/6 font-semibold text-center">
+                  Play as a Guest or Sign Up to Unlock More Features!
+                </h2>
+              </div>
+              <div className="space-y-3 w-full">
+                <p className="flex flex-row">
+                  <Gamepad2 size={30} className="mr-3 place-self-center" />
+                  Track your scores and see your play logs
+                </p>
+                <p className="flex flex-row">
+                  <Trophy size={30} className="mr-3 place-self-center" />{" "}
+                  Compete on the leaderboard and earn achievements
+                </p>
+                <p className="flex flex-row">
+                  <BookmarkCheck size={30} className="mr-3 place-self-center" />{" "}
+                  Save your favourite quizzes and revisit them anytime
+                </p>
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <button
+                  onClick={() => {
+                    // Do something
+                  }}
+                  className="mt-4 w-full px-4 py-2 bg-fuchsia-950  text-white rounded-lg hover:bg-fuchsia-800"
+                >
+                  <div className="flex items-center justify-center">
+                    <span className="pr-2">Sign in</span>
+                    <LogIn className="p-0 m-0" size={25} />
+                  </div>
+                </button>
+                <button
+                  onClick={() => {
+                    // Do something
+                  }}
+                  className="mt-4 w-full px-4 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-600"
+                >
+                  <div className="flex items-center justify-center">
+                    <span className="pr-2">Play as guest</span>
+                    <PersonStanding className="p-0 m-0" size={25} />
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
