@@ -1,7 +1,20 @@
 import Card from "./components/Card";
 import { useNavigate } from "react-router-dom";
-import { BookText, Dices, Search, Shuffle, Gamepad2 } from "lucide-react";
+import {
+  BookText,
+  Dices,
+  Search,
+  Shuffle,
+  Gamepad2,
+  LogIn,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
 
 function Home() {
   const navigate = useNavigate();
@@ -55,33 +68,57 @@ function Home() {
 
   return (
     <div className="">
-      <nav className=" mt-5 w-full flex justify-center space-x-8">
-        <div className="flex flex-col items-center ">
-          <button
-            onClick={randomQuiz}
-            className="bg-fuchsia-950 rounded-full w-14 h-14 p-2 grid place-content-center border-2 border-slate-300 shadow-md hover:w-28 transition-all duration-300 ease-in-out"
-          >
-            <Dices size={32} className="text-white" />
-          </button>
-          <span className="font-thin">Random</span>
+      <nav className="relative w-full h-20 px-6 flex items-center my-5">
+        <div className="flex space-x-6 sm:justify-start md:justify-center w-full">
+          <div className="flex flex-col items-center ">
+            <button
+              onClick={randomQuiz}
+              className="bg-fuchsia-950 rounded-full w-14 h-14 p-2 grid place-content-center border-2 border-slate-300 shadow-md hover:w-28 transition-all duration-300 ease-in-out"
+            >
+              <Dices size={32} className="text-white" />
+            </button>
+            <span className="font-thin">Random</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
+              <Search size={32} className="text-white" />
+            </button>
+            <span className="font-thin">Search</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
+              <Shuffle size={32} className="text-white" />
+            </button>
+            <span className="font-thin">Shuffle</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
+              <BookText size={32} className="text-white" />
+            </button>
+            <span className="font-thin">Topics</span>
+          </div>
         </div>
-        <div className="flex flex-col items-center">
-          <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
-            <Search size={32} className="text-white" />
-          </button>
-          <span className="font-thin">Search</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
-            <Shuffle size={32} className="text-white" />
-          </button>
-          <span className="font-thin">Shuffle</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <button className="bg-fuchsia-950 rounded-full w-14 hover:w-28 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
-            <BookText size={32} className="text-white" />
-          </button>
-          <span className="font-thin">Topics</span>
+        <div className="absolute top-0 right-6">
+          <SignedOut>
+            <div className="flex flex-col items-center">
+              <SignInButton>
+                <button className="bg-fuchsia-900 rounded-full w-14 transition-all duration-300 ease-in-out h-14 grid place-content-center p-2 border-2 border-slate-300 shadow-md">
+                  <LogIn size={32} className="text-white" />
+                </button>
+              </SignInButton>
+              <span className="font-thin">Log In</span>
+            </div>
+          </SignedOut>
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-14 h-14",
+                },
+              }}
+              // className="h-14"
+            />
+          </SignedIn>
         </div>
       </nav>
 
