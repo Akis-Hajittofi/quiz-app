@@ -18,19 +18,20 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  useUser,
 } from "@clerk/clerk-react";
 
 function Home() {
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState([]);
-
-  const [name, setName] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedQuiz, setSelectedQuiz] = useState(null); // Tracks which quiz was clicked
+  const { isSignedIn, user, isLoaded } = useUser();
 
   const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    console.log("THE USER: ", user);
     const fetchQuizzes = async () => {
       try {
         const response = await fetch(`${api}/quizzes/`);
@@ -47,27 +48,28 @@ function Home() {
     fetchQuizzes();
   }, [setQuizzes]);
 
-  const randomQuiz = () => {
-    const randomisedQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
-
-    navigate(`/play/typing/${randomisedQuiz.name}`);
+  const navigateToQuiz = (quiz) => {
+    navigate(`/play/typing/${quiz.name.replace(/\s+/g, "-").toLowerCase()}`, {
+      state: {
+        name: quiz.name,
+        quizId: quiz.quizId,
+        timeLimitSeconds: quiz.timeLimitSeconds,
+      },
+    });
   };
 
-  const handlePlayQuiz = (quiz) => {
-    const storedName = localStorage.getItem("playerName");
-
-    if (!storedName) {
-      setSelectedQuiz(quiz); // Store the clicked quiz
-      setIsModalOpen(true); // Open the modal
-    } else {
-      navigate(`/play/typing/${quiz.name.replace(/\s+/g, "-").toLowerCase()}`, {
-        state: {
-          name: quiz.name,
-          quizId: quiz.quizId,
-          timeLimitSeconds: quiz.timeLimitSeconds,
-        },
-      });
+  const handleSelectQuiz = (quiz) => {
+    if (!isSignedIn) {
+      setIsModalOpen(true);
+    } else if (isSignedIn) {
+      navigateToQuiz(quiz);
     }
+  };
+
+  const randomQuiz = () => {
+    const randomisedQuiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+    setSelectedQuiz(randomisedQuiz);
+    handleSelectQuiz(randomisedQuiz);
   };
 
   return (
@@ -134,7 +136,10 @@ function Home() {
             quizType={"typing"}
             image={quiz.imageUrl}
             key={index}
-            onCardClick={() => handlePlayQuiz(quiz)}
+            onCardClick={() => {
+              setSelectedQuiz(quiz);
+              handleSelectQuiz(quiz);
+            }}
           />
         ))}
       </div>
@@ -172,25 +177,32 @@ function Home() {
               </div>
 
               <div className="flex flex-col space-y-2">
-                <button
-                  onClick={() => {
-                    // Do something
-                  }}
-                  className="mt-4 w-full px-4 py-2 bg-fuchsia-950  text-white rounded-lg hover:bg-fuchsia-800"
+                <SignInButton
+                  mode="modal"
+                  fallbackRedirectUrl={`/play/typing/${selectedQuiz.name
+                    .replace(/\s+/g, "-")
+                    .toLowerCase()}`}
                 >
-                  <div className="flex items-center justify-center">
-                    <span className="pr-2">Sign in</span>
-                    <LogIn className="p-0 m-0" size={25} />
-                  </div>
-                </button>
+                  <button
+                    // onClick={() => {
+                    //   // Do something
+                    // }}
+                    className="mt-4 w-full px-4 py-2 bg-fuchsia-950  text-white rounded-lg hover:bg-fuchsia-800"
+                  >
+                    <div className="flex items-center justify-center">
+                      <span className="pr-2">Sign In / Sign Up</span>
+                      <LogIn className="p-0 m-0" size={25} />
+                    </div>
+                  </button>
+                </SignInButton>
                 <button
                   onClick={() => {
-                    // Do something
+                    navigateToQuiz(selectedQuiz);
                   }}
                   className="mt-4 w-full px-4 py-2 bg-indigo-700 text-white rounded-lg hover:bg-indigo-600"
                 >
                   <div className="flex items-center justify-center">
-                    <span className="pr-2">Play as guest</span>
+                    <span className="pr-2">Play as Guest</span>
                     <PersonStanding className="p-0 m-0" size={25} />
                   </div>
                 </button>
