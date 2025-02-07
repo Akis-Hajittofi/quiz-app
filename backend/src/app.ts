@@ -4,12 +4,14 @@ import baseRoutes from "./routes/baseRoutes";
 import quizzesRoutes from "./routes/quizzesRoutes";
 import answersRoutes from "./routes/answersRoutes";
 import leaderboardsRoutes from "./routes/leaderboardsRoutes";
+import { clerkMiddleware } from "@clerk/express";
 
 const app: express.Application = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(clerkMiddleware());
 
 // Routes
 app.use("/", baseRoutes);
