@@ -31,7 +31,6 @@ function Home() {
   const api = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    console.log("THE USER: ", user);
     const fetchQuizzes = async () => {
       try {
         const response = await fetch(`${api}/quizzes/`);

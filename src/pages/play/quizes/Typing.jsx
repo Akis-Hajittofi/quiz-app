@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Answers from "../components/Answers";
 import { ArrowLeft, Coins, Skull } from "lucide-react";
 import { ResultsContext } from "../../../results-provider";
+import { SignedIn, useAuth, useUser } from "@clerk/clerk-react";
 
 function Typing({ quiz, answers }) {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ function Typing({ quiz, answers }) {
   const [input, setInput] = useState("");
   const [scoredAnswers, setScoredAnswers] = useState(undefined);
   const api = import.meta.env.VITE_API_URL;
+  const { getToken } = useAuth();
+  const { isSignedIn, user, isLoaded } = useUser();
 
   useEffect(() => {
     setScoredAnswers(
@@ -31,14 +34,16 @@ function Typing({ quiz, answers }) {
   useEffect(() => {
     const submitQuizResult = async () => {
       try {
+        const token = await getToken();
         const response = await fetch(`${api}/leaderboards`, {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
             quizId: quiz.quizId,
-            username: localStorage.getItem("playerName"),
+            username: user.username,
             score,
             scorePercentage: percentage,
           }),
@@ -65,7 +70,9 @@ function Typing({ quiz, answers }) {
         percentage,
         maxScore,
       });
-      submitQuizResult();
+      if (isSignedIn) {
+        submitQuizResult();
+      }
       navigate("/results");
     }
   }, [gameEnd, setGameEnd]);
