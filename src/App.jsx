@@ -10,6 +10,8 @@ import Home from "./pages/home/Home";
 import Typing from "./pages/play/quizes/Typing";
 import ResultsProvider from "./results-provider";
 import { useEffect, useState } from "react";
+import Header from "./components/header/Header";
+import QuizzesProvider from "./QuizzesProvider";
 
 function App() {
   const RetrieveQuizWithAnswers = () => {
@@ -79,17 +81,23 @@ function App() {
     <div className="mb-10 mx-auto">
       <div className="">
         <ResultsProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="/play">
-              <Route
-                path="typing/:quizName"
-                element={<RetrieveQuizWithAnswers />}
-              />
-            </Route>
-            <Route path="/*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <QuizzesProvider>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/results" element={<Results />} />
+              <Route path="/play">
+                <Route
+                  path="typing/:quizName"
+                  element={<RetrieveQuizWithAnswers />}
+                />
+              </Route>
+              <Route path="/user">
+                <Route path="leaderboards" />
+              </Route>
+              <Route path="/*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </QuizzesProvider>
         </ResultsProvider>
       </div>
     </div>
