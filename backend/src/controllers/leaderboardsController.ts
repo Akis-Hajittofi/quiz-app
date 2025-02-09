@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import pool from "../db";
 import { ResultSetHeader, RowDataPacket, FieldPacket } from "mysql2";
 import { LeaderboardEntry } from "../middlewares/validateLeaderboard";
+import { AuthenticatedRequest } from "../types/authTypes";
 
 type RequestBody<T> = Request<{}, {}, T>;
 
@@ -27,11 +28,11 @@ const quizExists = async (quizId: number): Promise<boolean> => {
 
 //  POST quiz score to the leaderboard
 export const postLeaderboard = async (
-  req: RequestBody<LeaderboardEntry>,
+  req: AuthenticatedRequest,
   res: Response
 ): Promise<Response> => {
   const { quizId, username, score, scorePercentage } = req.body;
-
+  const userId = req.auth!.userId;
   // Mapping for maintainability later on but it's not actually needed right now
   const dbEntry = mapToDbLeaderboard({
     quizId,
@@ -46,8 +47,14 @@ export const postLeaderboard = async (
 
   try {
     const [result] = await pool.query<ResultSetHeader>(
-      "INSERT INTO leaderboards (QuizID, Username, Score, ScorePercentage) VALUES (?, ?, ?, ?)",
-      [dbEntry.QuizID, dbEntry.Username, dbEntry.Score, dbEntry.ScorePercentage]
+      "INSERT INTO leaderboards (QuizID, Username, Score, ScorePercentage, UserId) VALUES (?, ?, ?, ?, ?)",
+      [
+        dbEntry.QuizID,
+        dbEntry.Username,
+        dbEntry.Score,
+        dbEntry.ScorePercentage,
+        userId,
+      ]
     );
 
     return res.status(201).json({
@@ -58,6 +65,7 @@ export const postLeaderboard = async (
         username,
         score,
         scorePercentage,
+        userId,
       },
     });
   } catch (error) {
@@ -76,9 +84,34 @@ export const getAllLeaderboards = async (req: Request, res: Response) => {
         Username AS username,
         Score AS score,
         ScorePercentage AS scorePercentage,
-        DateOfScore AS dateOfScore
+        DateOfScore AS dateOfScore,
       FROM leaderboards`);
     res.json(rows);
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getLeaderboardsByUserId = async (req: Request, res: Response) => {
+  const { UserId } = req.params;
+  const [rows] = await pool.query(
+    `
+    SELECT
+        ScoreID AS scoreId,
+        QuizID AS quizId,
+        Username AS username,
+        Score AS score,
+        ScorePercentage AS scorePercentage,
+        DateOfScore AS dateOfScore,
+        UserId as userId
+      FROM leaderboards
+      WHERE UserId = ?
+    `,
+    [UserId]
+  );
+  res.json(rows);
+  try {
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).json({ error: "Internal Server Error" });
