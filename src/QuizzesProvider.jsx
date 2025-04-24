@@ -33,13 +33,18 @@ export default function QuizzesProvider({children}) {
       }, [setQuizzes]);
 
     const navigateToQuiz = (quiz) => {
-        navigate(`/play/typing/${quiz.name.replace(/\s+/g, "-").toLowerCase()}`, {
-          state: {
-            name: quiz.name,
-            quizId: quiz.quizId,
-            timeLimitSeconds: quiz.timeLimitSeconds,
-          },
-        });
+        navigate(
+          `/play/typing/${encodeURIComponent(
+            quiz.name.replace(/\s+/g, "-").toLowerCase()
+          )}`,
+          {
+            state: {
+              name: quiz.name,
+              quizId: quiz.quizId,
+              timeLimitSeconds: quiz.timeLimitSeconds,
+            },
+          }
+        );
       };
     
       const handleSelectQuiz = (quiz) => {
