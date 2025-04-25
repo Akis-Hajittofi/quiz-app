@@ -20,7 +20,9 @@ function Results() {
 
   const handleTryAgain = () => {
     navigate(
-      `/play/typing/${results.quiz.name.replace(/\s+/g, "-").toLowerCase()}`,
+      `/play/typing/${encodeURIComponent(
+        results.quiz.name.replace(/\s+/g, "-").toLowerCase()
+      )}`,
       {
         state: {
           name: quiz.name,
